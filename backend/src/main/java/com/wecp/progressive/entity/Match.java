@@ -1,6 +1,6 @@
 package com.wecp.progressive.entity;
 
-import java.sql.Date;
+import java.util.*;
 
 public class Match {
   
@@ -8,6 +8,7 @@ public class Match {
     private int firstTeamId;
     private int secondTeamId;
     private Date matchDate;
+    //private java.util.Date matchDate;
     private String venue;
     private String result;
     private String status;
@@ -57,7 +58,7 @@ public class Match {
         return matchDate;
     }
 
-    public void setMatchDate(Date matchDate) {
+    public void setMatchDate(java.util.Date matchDate) {
         this.matchDate = matchDate;
     }
 
