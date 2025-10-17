@@ -1,45 +1,16 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+<form [formGroup] = "loginForm" (ngSubmit) = "onSubmit()">
+    
+    <label for = "username">Username</label>
+    <input type = "text" id = "username" name = "username" formControlName = "username" />
+    <div *ngIf = "f['username'].invalid && f['username'].touched">
+        <small *ngIf = "f['username']?.errors['required']">Username is required.</small>
+    </div>
 
-@Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
-})
-export class LoginComponent  {
-    user: {username:string, password:string} = {username: '', password: ''};
-    successMessage: string = '';
-    errorMessage: string = '';
-    loginForm: FormGroup;
-    constructor(private fb: FormBuilder){
-        this.loginForm = this.fb.group({
-            username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
-            password: ['', [Validators.required, Validators.minLength(8)]]
-        });
-    }
+    <label for = "password">Password</label>
+    <input type = "text" id = "password" name = "password" formControlName = "password" />
+    <div *ngIf = "f['password'].invalid && f['password'].touched">
+        <small *ngIf = "f['password']?.errors['required']">Password is required.</small>
+    </div>
 
-    onSubmit(): void{
-        this.successMessage = '';
-        this.errorMessage = '';
-        if(this.loginForm.valid){
-            this.user = {...this.loginForm.value};
-            //this.user.username = this.loginForm.get('username')?.value;
-            if(this.simulateBackendLoginError(this.user.username)){
-                //this.errorMessage = "Please fill out all required fields correctly.";
-                this.errorMessage = "Invalid username or password.";  
-                return;      
-            }
-            //this.user.password = this.loginForm.get('password')?.value;
-            this.successMessage = "User logged in sucessfully.";
-        } else {
-           this.errorMessage = "Please fill out all required fields correctly.";
-           //this.errorMessage = "Invalid username or password.";  
-        }
-    } 
-    simulateBackendLoginError(username: string): boolean{
-        return (!!username);
-    }
-    get f(){
-        return this.loginForm.controls;
-    }
-}
+    <button type = "submit" [disabled] = "loginForm.invalid">Login</button>
+</form>
