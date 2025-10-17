@@ -1,60 +1,28 @@
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Cricketer } from "../../types/Cricketer";
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.scss']
+    selector: 'app-cricketerarray',
+    //standalone: true,
+    templateUrl: './cricketerarray.component.html',
+    styleUrls: ['./cricketerarray.component.scss']
 })
-export class RegistrationComponent  
+export class CricketerArrayComponent  
 {
-    user: { fullName: string;
-            username:string;
-            email: string;
-            password:string}  = {fullName: '', username: '', email: '', password: ''}
-   
-    successMessage: string;
-    errorMessage: string;
-    registrationForm: FormGroup;
-    
-    constructor(private fb: FormBuilder)
+    cricketers: Cricketer[] = [];
+
+    ngOnInit()
     {
-        this.registrationForm = this.fb.group({
-            fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
-            username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
-            password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{8,}$/)]],
-            email: ['', [Validators.required, Validators.email]]
-        });
+        this.cricketers.push(new Cricketer(1, 1, 'Virat Kohli', 35, "Indian", 17, "batsman", 35000, 25));
+        this.cricketers.push(new Cricketer(2, 2, 'AB de Villiers', 37, "South Africa", 15, "batsman", 28000, 17));
+        this.cricketers.push(new Cricketer(3, 1, 'Chris Gayle', 40, "West Indies", 20, "batsman", 25000, 30));
+        this.cricketers.push(new Cricketer(4, 2, 'Abhishek', 23, "Indian", 5, "batsman", 5000, 25));
     }
 
-    onSubmit()
-    {
-        this.successMessage = '';
-        this.errorMessage = '';
-        if(this.registrationForm.invalid)
-        {
-            this.errorMessage = "Please fill out all required fields correctly.";
-            this.successMessage = '';
-        }
-        else
-        {
-            this.user = {...this.registrationForm.value};
-            this.successMessage = "Registration successful!";
-            this.errorMessage = '';
-            setTimeout(()=>{ this.resetForm()}, 7000);
-        }
-    }
+    showCricketers: Boolean = false;
 
-    resetForm():void
+    toggleCricketers()
     {
-        this.registrationForm.reset({fullName: '', username: '', email: '', password: ''});
-        this.user = {...this.registrationForm.value};
-        this.successMessage = '';
-        this.errorMessage = ''
-    }
-
-    get f()
-    {   
-        return this.registrationForm.controls;
+        this.showCricketers = !this.showCricketers;
     }
 }
